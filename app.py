@@ -82,9 +82,8 @@ def main():
 
     preprocessing_agent = PreprocessingAgent()
 
-    df = preprocessing_agent.execute(df)
-
-    print("✓ Preprocessing Agent Completed")
+    preprocessing_results = preprocessing_agent.execute(df)
+    df = preprocessing_results["dataframe"]
 
     # ==================================================================
     # PIPELINE SUMMARY

@@ -6,7 +6,7 @@ CLASSIFIC-AI
 Preprocessing Agent
 
 Author : Biswadip Choudhury
-Version : 1.0
+Version : 1.2.0
 
 =====================================================================
 
@@ -24,7 +24,7 @@ Responsibilities
 10. Constant Feature Detection (Future)
 11. High Cardinality Detection (Future)
 12. ID Detection (Future)
-13. Preprocessing Recommendation Engine (Future)
+13. Recommendation Engine (Future)
 
 =====================================================================
 """
@@ -32,10 +32,12 @@ Responsibilities
 import pandas as pd
 
 from core.base_agent import BaseAgent
+from agents.preprocessing.duplicate_module import DuplicateModule
+from agents.preprocessing.missing_value_module import MissingValueModule
+from agents.preprocessing.datatype_module import DataTypeModule
 
 
 class PreprocessingAgent(BaseAgent):
-
     """
     CLASSIFIC-AI Preprocessing Agent
     """
@@ -49,102 +51,186 @@ class PreprocessingAgent(BaseAgent):
         print("PREPROCESSING AGENT")
         print("=" * 70)
 
-        ###############################################################
-        # Duplicate Analysis
-        ###############################################################
+        ####################################################################
+        # Duplicate Module
+        ####################################################################
 
-        print("\n[1] Duplicate Analysis")
+        duplicate_module = DuplicateModule()
+
+        duplicate_result = duplicate_module.analyze(df)
+
+        print("\n" + "=" * 70)
+        print("DUPLICATE MODULE")
+        print("=" * 70)
+
+        print(
+            f"Total Rows            : "
+            f"{duplicate_result['summary']['total_rows']}"
+        )
+
+        print(
+            f"Duplicate Rows        : "
+            f"{duplicate_result['summary']['duplicate_rows']}"
+        )
+
+        print(
+            f"Duplicate Percentage  : "
+            f"{duplicate_result['summary']['duplicate_percentage']} %"
+        )
+
+        print("\nRecommendation")
+        print("-" * 40)
+        print(duplicate_result["recommendation"])
+
+        print("\nHuman Approval Required")
+        print("-" * 40)
+        print(duplicate_result["human_approval_required"])
+
+        ####################################################################
+        # Missing Value Module
+        ####################################################################
+
+        missing_module = MissingValueModule()
+
+        missing_result = missing_module.analyze(df)
+
+        print("\n" + "=" * 70)
+        print("MISSING VALUE MODULE")
+        print("=" * 70)
+
+        print(
+            f"Total Rows              : "
+            f"{missing_result['summary']['total_rows']}"
+        )
+
+        print(
+            f"Total Columns           : "
+            f"{missing_result['summary']['total_columns']}"
+        )
+
+        print(
+            f"Total Missing Values    : "
+            f"{missing_result['summary']['total_missing']}"
+        )
+
+        print(
+            f"Columns With Missing    : "
+            f"{missing_result['summary']['columns_with_missing']}"
+        )
+
+        print("\nColumns")
         print("-" * 40)
 
-        duplicate_count = df.duplicated().sum()
+        if len(missing_result["missing_columns"]) == 0:
 
-        print(f"Duplicate Rows : {duplicate_count}")
-
-        if duplicate_count > 0:
-
-            print("\nRecommendation")
-            print("----------------")
-
-            print("Review duplicate rows before removing them.")
-            print("Keeping duplicate rows for now.")
+            print("No missing values detected.")
 
         else:
 
-            print("No duplicate rows found.")
+            for column, info in missing_result["missing_columns"].items():
 
-        ###############################################################
-        # Missing Value Analysis
-        ###############################################################
+                print(
+                    f"{column} : "
+                    f"{info['missing_count']} "
+                    f"({info['missing_percentage']}%)"
+                )
 
-        print("\n[2] Missing Value Analysis")
+        print("\nRecommendation")
+        print("-" * 40)
+        print(missing_result["recommendation"])
+
+        print("\nHuman Approval Required")
+        print("-" * 40)
+        print(missing_result["human_approval_required"])
+
+        total_missing = missing_result["summary"]["total_missing"]
+
+        ####################################################################
+        # Data Type Module
+        ####################################################################
+
+        datatype_module = DataTypeModule()
+
+        datatype_result = datatype_module.analyze(df)
+
+        print("\n" + "=" * 70)
+        print("DATA TYPE MODULE")
+        print("=" * 70)
+
+        print(
+            f"Total Columns : "
+            f"{datatype_result['summary']['total_columns']}"
+        )
+
+        print("\nDetected Data Types")
         print("-" * 40)
 
-        missing_values = df.isnull().sum()
+        for column, dtype in datatype_result["datatypes"].items():
 
-        print(missing_values)
+            print(f"{column:<35} {dtype}")
 
-        ###############################################################
-        # Data Type Analysis
-        ###############################################################
-
-        print("\n[3] Column Data Types")
+        print("\nRecommendation")
         print("-" * 40)
 
-        print(df.dtypes)
+        print(datatype_result["recommendation"])
 
-        ###############################################################
+        print("\nHuman Approval Required")
+        print("-" * 40)
+
+        print(datatype_result["human_approval_required"])
+
+        ####################################################################
         # Future Modules
-        ###############################################################
+        ####################################################################
 
-        print("\n[4] Outlier Detection")
-        print("Status : Pending")
+        print("\n" + "=" * 70)
+        print("PREPROCESSING MODULE STATUS")
+        print("=" * 70)
 
-        print("\n[5] Encoding Recommendation")
-        print("Status : Pending")
+        print("[✓] Duplicate Module")
+        print("[✓] Missing Value Module")
+        print("[✓] Data Type Module")
+        print("[ ] Outlier Detection Module")
+        print("[ ] Encoding Module")
+        print("[ ] Scaling Module")
+        print("[ ] Date Module")
+        print("[ ] Text Module")
+        print("[ ] Boolean Module")
+        print("[ ] Constant Feature Module")
+        print("[ ] High Cardinality Module")
+        print("[ ] ID Detection Module")
+        print("[ ] Recommendation Engine v2")
 
-        print("\n[6] Feature Scaling Recommendation")
-        print("Status : Pending")
-
-        print("\n[7] Date Detection")
-        print("Status : Pending")
-
-        print("\n[8] Text Detection")
-        print("Status : Pending")
-
-        print("\n[9] Boolean Detection")
-        print("Status : Pending")
-
-        print("\n[10] Constant Feature Detection")
-        print("Status : Pending")
-
-        print("\n[11] High Cardinality Detection")
-        print("Status : Pending")
-
-        print("\n[12] ID Detection")
-        print("Status : Pending")
-
-        ###############################################################
-        # Recommendation Engine
-        ###############################################################
+        ####################################################################
+        # Recommendation Engine (Version 1.0)
+        ####################################################################
 
         print("\n" + "=" * 70)
         print("PREPROCESSING RECOMMENDATIONS")
         print("=" * 70)
 
+        duplicate_count = duplicate_result["summary"]["duplicate_rows"]
+
         if duplicate_count > 0:
 
-            print("✓ Review duplicate rows.")
+            print("✓ Duplicate rows detected.")
+            print("  Recommendation : Review duplicate rows before removing.")
+            print("  Human Approval : Required")
 
-        if missing_values.sum() > 0:
+        else:
 
-            print("✓ Missing values detected.")
+            print("✓ No duplicate rows detected.")
+
+        if total_missing > 0:
+
+            print("\n✓ Missing values detected.")
             print("  Recommendation : Handle missing values before modeling.")
 
         else:
 
-            print("✓ No missing values detected.")
+            print("\n✓ No missing values detected.")
 
-        print("✓ Review categorical columns for encoding.")
+        print("\n✓ Review categorical columns for encoding.")
 
         print("✓ Review numeric columns for scaling.")
 
@@ -156,11 +242,87 @@ class PreprocessingAgent(BaseAgent):
 
         print("✓ Review constant columns.")
 
-        ###############################################################
-        # Return Dataset
-        ###############################################################
+        ####################################################################
+        # Future Human-in-the-Loop Decisions
+        ####################################################################
 
-        print("\nPreprocessing Agent Completed.")
+        print("\n" + "=" * 70)
+        print("HUMAN-IN-THE-LOOP CHECKPOINTS")
+        print("=" * 70)
 
-        return df
+        print("[ ] Duplicate Removal Approval")
+        print("[ ] Missing Value Strategy Approval")
+        print("[ ] Encoding Approval")
+        print("[ ] Scaling Approval")
+        print("[ ] Outlier Handling Approval")
+        print("[ ] Feature Engineering Approval")
+        print("[ ] Feature Selection Approval")
+
+        ####################################################################
+        # Agent Status
+        ####################################################################
+
+        print("\n" + "=" * 70)
+        print("PREPROCESSING AGENT STATUS")
+        print("=" * 70)
+
+        print("Status : Completed")
+
+        print("Completed Modules :")
+        print("  ✓ Duplicate Analysis")
+        print("  ✓ Missing Value Analysis")
+        print("  ✓ Data Type Analysis")
+
+        print("\nPending Modules :")
+        print("  • Outlier Detection")
+        print("  • Encoding")
+        print("  • Scaling")
+        print("  • Date Detection")
+        print("  • Text Detection")
+        print("  • Boolean Detection")
+        print("  • Constant Feature Detection")
+        print("  • High Cardinality Detection")
+        print("  • ID Detection")
+        print("  • Recommendation Engine v2")
+
+        ####################################################################
+        # Agent Completed
+        ####################################################################
+
+        print("\nPreprocessing Agent Completed Successfully.")
+
+        ####################################################################
+        # Return Results
+        ####################################################################
+
+        preprocessing_results = {
+
+            "dataframe": df,
+
+            "duplicate_result": duplicate_result,
+
+            "missing_value_result": missing_result,
+
+            "datatype_result": datatype_result
+
+        }
+
+        return preprocessing_results
+
+        ####################################################################
+        # Return Results
+        ####################################################################
+
+        preprocessing_results = {
+
+            "dataframe": df,
+
+            "duplicate_result": duplicate_result,
+
+            "missing_value_result": missing_result
+
+        }
+
+        return preprocessing_results
+    
     

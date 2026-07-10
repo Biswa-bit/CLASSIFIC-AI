@@ -37,6 +37,8 @@ from agents.preprocessing.missing_value_module import MissingValueModule
 from agents.preprocessing.datatype_module import DataTypeModule
 from agents.preprocessing.outlier_module import OutlierModule
 from agents.preprocessing.encoding_module import EncodingModule
+from agents.preprocessing.scaling_module import ScalingModule
+
 
 
 class PreprocessingAgent(BaseAgent):
@@ -279,6 +281,47 @@ class PreprocessingAgent(BaseAgent):
 
         print(encoding_result["human_approval_required"])
 
+        ######################################################################
+        # Scaling Module
+        ######################################################################
+
+        scaling_module = ScalingModule()
+
+        scaling_result = scaling_module.analyze(df)
+
+        print("\n" + "=" * 70)
+        print("SCALING MODULE")
+        print("=" * 70)
+
+        print(
+            f"Numeric Columns        : "
+            f"{scaling_result['summary']['numeric_columns']}"
+        )
+
+        print("\nScaling Recommendation")
+        print("-" * 40)
+
+        for column, method in scaling_result["scaling_recommendation"].items():
+
+            print(
+                f"{column} : {method}"
+            )
+
+        print("\nRecommendation")
+        print("-" * 40)
+
+        print(
+            scaling_result["recommendation"]
+        )
+
+        print("\nHuman Approval Required")
+        print("-" * 40)
+
+        if scaling_result["human_approval_required"]:
+            print("✓ Human approval required before applying scaling.")
+        else:
+            print("✓ No human approval required.")
+
         ####################################################################
         # Future Modules
         ####################################################################
@@ -292,7 +335,7 @@ class PreprocessingAgent(BaseAgent):
         print("[✓] Data Type Module")
         print("[✓] Outlier Detection Module")
         print("[✓] Encoding Module")
-        print("[ ] Scaling Module")
+        print("[✓] Scaling Module")
         print("[ ] Date Module")
         print("[ ] Text Module")
         print("[ ] Boolean Module")
@@ -374,9 +417,9 @@ class PreprocessingAgent(BaseAgent):
         print("  ✓ Data Type Analysis")
         print("  ✓ Outlier Detection")
         print("  ✓ Encoding Recommendation")
+        print("  ✓ Scaling Recommendation")
 
         print("\nPending Modules :")
-        print("  • Scaling")
         print("  • Date Detection")
         print("  • Text Detection")
         print("  • Boolean Detection")
@@ -407,9 +450,11 @@ class PreprocessingAgent(BaseAgent):
 
         "outlier_result": outlier_result,
 
-        "encoding_result": encoding_result
+        "encoding_result": encoding_result,
 
-        }
+        "scaling_result": scaling_result
+
+    }
         ####################################################################
         # Return Results
         ####################################################################

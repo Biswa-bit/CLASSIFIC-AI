@@ -35,6 +35,7 @@ from core.base_agent import BaseAgent
 from agents.preprocessing.duplicate_module import DuplicateModule
 from agents.preprocessing.missing_value_module import MissingValueModule
 from agents.preprocessing.datatype_module import DataTypeModule
+from agents.preprocessing.outlier_module import OutlierModule
 
 
 class PreprocessingAgent(BaseAgent):
@@ -179,6 +180,60 @@ class PreprocessingAgent(BaseAgent):
 
         print(datatype_result["human_approval_required"])
 
+      ####################################################################
+        # Outlier Module
+        ####################################################################
+
+        outlier_module = OutlierModule()
+
+        outlier_result = outlier_module.analyze(df)
+
+        print("\n" + "=" * 70)
+        print("OUTLIER MODULE")
+        print("=" * 70)
+
+        print(
+            f"Numeric Columns        : "
+            f"{outlier_result['summary']['numeric_columns']}"
+        )
+
+        print(
+            f"Columns With Outliers  : "
+            f"{outlier_result['summary']['columns_with_outliers']}"
+        )
+
+        print(
+            f"Total Outliers         : "
+            f"{outlier_result['summary']['total_outliers']}"
+        )
+
+        print("\nOutlier Details")
+        print("-" * 40)
+
+        if len(outlier_result["outlier_columns"]) == 0:
+
+            print("No outliers detected.")
+
+        else:
+
+            for column, info in outlier_result["outlier_columns"].items():
+
+                print(
+                    f"{column} : "
+                    f"{info['outlier_count']} "
+                    f"({info['outlier_percentage']}%)"
+                )
+
+        print("\nRecommendation")
+        print("-" * 40)
+
+        print(outlier_result["recommendation"])
+
+        print("\nHuman Approval Required")
+        print("-" * 40)
+
+        print(outlier_result["human_approval_required"])
+
         ####################################################################
         # Future Modules
         ####################################################################
@@ -190,7 +245,7 @@ class PreprocessingAgent(BaseAgent):
         print("[✓] Duplicate Module")
         print("[✓] Missing Value Module")
         print("[✓] Data Type Module")
-        print("[ ] Outlier Detection Module")
+        print("[✓] Outlier Detection Module")
         print("[ ] Encoding Module")
         print("[ ] Scaling Module")
         print("[ ] Date Module")
@@ -272,6 +327,7 @@ class PreprocessingAgent(BaseAgent):
         print("  ✓ Duplicate Analysis")
         print("  ✓ Missing Value Analysis")
         print("  ✓ Data Type Analysis")
+        print("  ✓ Outlier Detection")
 
         print("\nPending Modules :")
         print("  • Outlier Detection")
@@ -303,8 +359,9 @@ class PreprocessingAgent(BaseAgent):
 
             "missing_value_result": missing_result,
 
-            "datatype_result": datatype_result
-
+            "datatype_result": datatype_result,
+            
+            "outlier_result": outlier_result
         }
 
         return preprocessing_results
@@ -324,5 +381,6 @@ class PreprocessingAgent(BaseAgent):
         }
 
         return preprocessing_results
+    
     
     

@@ -39,6 +39,7 @@ from agents.preprocessing.outlier_module import OutlierModule
 from agents.preprocessing.encoding_module import EncodingModule
 from agents.preprocessing.scaling_module import ScalingModule
 from agents.preprocessing.date_module import DateModule
+from agents.preprocessing.text_module import TextModule
 
 
 
@@ -411,6 +412,68 @@ class PreprocessingAgent(BaseAgent):
 
         )
 
+        ######################################################################
+        # Text Module
+        ######################################################################
+
+        text_module = TextModule()
+
+        text_result = text_module.analyze(df)
+
+        print("\n" + "=" * 70)
+        print("TEXT MODULE")
+        print("=" * 70)
+
+        print(
+            f"Text Columns           : "
+            f"{text_result['summary']['text_columns']}"
+        )
+
+        print("\nDetected Columns")
+        print("-" * 40)
+
+        for column, info in text_result["text_recommendation"].items():
+
+            print(f"\n{column}")
+
+            print(
+                f"    Status               : {info['status']}"
+            )
+
+            print(
+                f"    Recommended Action   : {info['recommended_action']}"
+            )
+
+            print(
+                f"    Reason               : {info['reason']}"
+            )
+
+            if info["human_approval"]:
+
+                print(
+                    "    Human Approval       : Required"
+                )
+
+            else:
+
+                print(
+                    "    Human Approval       : Not Required"
+                )
+
+        print("\nRecommendation")
+        print("-" * 40)
+
+        print(
+            text_result["recommendation"]
+        )
+
+        print("\nHuman Approval Required")
+        print("-" * 40)
+
+        print(
+            text_result["human_approval_required"]
+        )
+
         ####################################################################
         # Future Modules
         ####################################################################
@@ -419,14 +482,15 @@ class PreprocessingAgent(BaseAgent):
         print("PREPROCESSING MODULE STATUS")
         print("=" * 70)
 
-        print("[✓] Duplicate Module")
-        print("[✓] Missing Value Module")
-        print("[✓] Data Type Module")
-        print("[✓] Outlier Detection Module")
-        print("[✓] Encoding Module")
-        print("[✓] Scaling Module")
+        print("[√] Duplicate Module")
+        print("[√] Missing Value Module")
+        print("[√] Data Type Module")
+        print("[√] Outlier Detection Module")
+        print("[√] Encoding Module")
+        print("[√] Scaling Module")
         print("[√] Date Module")
-        print("[ ] Text Module")
+        print("[√] Text Module")
+
         print("[ ] Boolean Module")
         print("[ ] Constant Feature Module")
         print("[ ] High Cardinality Module")
@@ -502,22 +566,22 @@ class PreprocessingAgent(BaseAgent):
 
         print("Completed Modules :")
 
-        print(" ✓ Duplicate Analysis")
-        print(" ✓ Missing Value Analysis")
-        print(" ✓ Data Type Analysis")
-        print(" ✓ Outlier Detection")
-        print(" ✓ Encoding Recommendation")
-        print(" ✓ Scaling Recommendation")
-        print(" ✓ Date Detection")
+        print("    ✓ Duplicate Analysis")
+        print("    ✓ Missing Value Analysis")
+        print("    ✓ Data Type Analysis")
+        print("    ✓ Outlier Detection")
+        print("    ✓ Encoding Recommendation")
+        print("    ✓ Scaling Recommendation")
+        print("    ✓ Date Detection")
+        print("    ✓ Text Detection")
 
         print("\nPending Modules :")
 
-        print("• Text Detection")
-        print("• Boolean Detection")
-        print("• Constant Feature Detection")
-        print("• High Cardinality Detection")
-        print("• ID Detection")
-        print("• Recommendation Engine v2")
+        print("    • Boolean Detection")
+        print("    • Constant Feature Detection")
+        print("    • High Cardinality Detection")
+        print("    • ID Detection")
+        print("    • Recommendation Engine v2")
 
         ####################################################################
         # Agent Completed
@@ -545,7 +609,9 @@ class PreprocessingAgent(BaseAgent):
 
         "scaling_result": scaling_result,
 
-        "date_result": date_result
+        "date_result": date_result,
+
+        "text_result": text_result
 
     }
         ####################################################################

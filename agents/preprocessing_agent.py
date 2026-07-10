@@ -38,6 +38,7 @@ from agents.preprocessing.datatype_module import DataTypeModule
 from agents.preprocessing.outlier_module import OutlierModule
 from agents.preprocessing.encoding_module import EncodingModule
 from agents.preprocessing.scaling_module import ScalingModule
+from agents.preprocessing.date_module import DateModule
 
 
 
@@ -322,6 +323,94 @@ class PreprocessingAgent(BaseAgent):
             scaling_result["human_approval_required"]
         )
 
+        ##############################################################
+        # Date Module
+        ##############################################################
+
+        date_module = DateModule()
+
+        date_result = date_module.analyze(df)
+
+        print("\n" + "=" * 70)
+
+        print("DATE MODULE")
+
+        print("=" * 70)
+
+        print(
+
+            f"Date Columns      : "
+            f"{date_result['summary']['date_columns']}"
+
+        )
+
+        print("\nDetected Columns")
+
+        print("-" * 40)
+
+        for column, info in date_result["date_recommendation"].items():
+
+            print()
+
+            print(column)
+
+            print(
+
+                f"    Status              : "
+                f"{info['status']}"
+
+            )
+
+            print(
+
+                f"    Recommended Action  : "
+                f"{info['recommended_action']}"
+
+            )
+
+            print(
+
+                f"    Reason              : "
+                f"{info['reason']}"
+
+            )
+
+            if info["human_approval"]:
+
+                print(
+
+                    "    Human Approval      : Required"
+
+                )
+
+            else:
+
+                print(
+
+                    "    Human Approval      : Not Required"
+
+                )
+
+        print("\nRecommendation")
+
+        print("-" * 40)
+
+        print(
+
+            date_result["recommendation"]
+
+        )
+
+        print("\nHuman Approval Required")
+
+        print("-" * 40)
+
+        print(
+
+            date_result["human_approval_required"]
+
+        )
+
         ####################################################################
         # Future Modules
         ####################################################################
@@ -336,7 +425,7 @@ class PreprocessingAgent(BaseAgent):
         print("[✓] Outlier Detection Module")
         print("[✓] Encoding Module")
         print("[✓] Scaling Module")
-        print("[ ] Date Module")
+        print("[√] Date Module")
         print("[ ] Text Module")
         print("[ ] Boolean Module")
         print("[ ] Constant Feature Module")
@@ -412,21 +501,23 @@ class PreprocessingAgent(BaseAgent):
         print("Status : Completed")
 
         print("Completed Modules :")
-        print("  ✓ Duplicate Analysis")
-        print("  ✓ Missing Value Analysis")
-        print("  ✓ Data Type Analysis")
-        print("  ✓ Outlier Detection")
-        print("  ✓ Encoding Recommendation")
-        print("  ✓ Scaling Recommendation")
+
+        print(" ✓ Duplicate Analysis")
+        print(" ✓ Missing Value Analysis")
+        print(" ✓ Data Type Analysis")
+        print(" ✓ Outlier Detection")
+        print(" ✓ Encoding Recommendation")
+        print(" ✓ Scaling Recommendation")
+        print(" ✓ Date Detection")
 
         print("\nPending Modules :")
-        print("  • Date Detection")
-        print("  • Text Detection")
-        print("  • Boolean Detection")
-        print("  • Constant Feature Detection")
-        print("  • High Cardinality Detection")
-        print("  • ID Detection")
-        print("  • Recommendation Engine v2")
+
+        print("• Text Detection")
+        print("• Boolean Detection")
+        print("• Constant Feature Detection")
+        print("• High Cardinality Detection")
+        print("• ID Detection")
+        print("• Recommendation Engine v2")
 
         ####################################################################
         # Agent Completed
@@ -452,7 +543,9 @@ class PreprocessingAgent(BaseAgent):
 
         "encoding_result": encoding_result,
 
-        "scaling_result": scaling_result
+        "scaling_result": scaling_result,
+
+        "date_result": date_result
 
     }
         ####################################################################

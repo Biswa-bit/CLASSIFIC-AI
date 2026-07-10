@@ -36,6 +36,7 @@ from agents.preprocessing.duplicate_module import DuplicateModule
 from agents.preprocessing.missing_value_module import MissingValueModule
 from agents.preprocessing.datatype_module import DataTypeModule
 from agents.preprocessing.outlier_module import OutlierModule
+from agents.preprocessing.encoding_module import EncodingModule
 
 
 class PreprocessingAgent(BaseAgent):
@@ -235,6 +236,50 @@ class PreprocessingAgent(BaseAgent):
         print(outlier_result["human_approval_required"])
 
         ####################################################################
+        # Encoding Module
+        ####################################################################
+
+        encoding_module = EncodingModule()
+
+        encoding_result = encoding_module.analyze(df)
+
+        print("\n" + "=" * 70)
+        print("ENCODING MODULE")
+        print("=" * 70)
+
+        print(
+            f"Categorical Columns    : "
+            f"{encoding_result['summary']['categorical_columns']}"
+        )
+
+        print("\nEncoding Recommendation")
+        print("-" * 40)
+
+        if len(encoding_result["encoding_columns"]) == 0:
+
+            print("No categorical columns detected.")
+
+        else:
+
+            for column, info in encoding_result["encoding_columns"].items():
+
+                print(
+                    f"{column} : "
+                    f"{info['recommended_encoding']} "
+                    f"({info['unique_values']} unique values)"
+                )
+
+        print("\nRecommendation")
+        print("-" * 40)
+
+        print(encoding_result["recommendation"])
+
+        print("\nHuman Approval Required")
+        print("-" * 40)
+
+        print(encoding_result["human_approval_required"])
+
+        ####################################################################
         # Future Modules
         ####################################################################
 
@@ -246,7 +291,7 @@ class PreprocessingAgent(BaseAgent):
         print("[✓] Missing Value Module")
         print("[✓] Data Type Module")
         print("[✓] Outlier Detection Module")
-        print("[ ] Encoding Module")
+        print("[✓] Encoding Module")
         print("[ ] Scaling Module")
         print("[ ] Date Module")
         print("[ ] Text Module")
@@ -328,10 +373,9 @@ class PreprocessingAgent(BaseAgent):
         print("  ✓ Missing Value Analysis")
         print("  ✓ Data Type Analysis")
         print("  ✓ Outlier Detection")
+        print("  ✓ Encoding Recommendation")
 
         print("\nPending Modules :")
-        print("  • Outlier Detection")
-        print("  • Encoding")
         print("  • Scaling")
         print("  • Date Detection")
         print("  • Text Detection")
@@ -353,19 +397,19 @@ class PreprocessingAgent(BaseAgent):
 
         preprocessing_results = {
 
-            "dataframe": df,
+        "dataframe": df,
 
-            "duplicate_result": duplicate_result,
+        "duplicate_result": duplicate_result,
 
-            "missing_value_result": missing_result,
+        "missing_value_result": missing_result,
 
-            "datatype_result": datatype_result,
-            
-            "outlier_result": outlier_result
+        "datatype_result": datatype_result,
+
+        "outlier_result": outlier_result,
+
+        "encoding_result": encoding_result
+
         }
-
-        return preprocessing_results
-
         ####################################################################
         # Return Results
         ####################################################################

@@ -299,15 +299,15 @@ class PreprocessingAgent(BaseAgent):
         )
 
         print("\nScaling Recommendation")
+
         print("-" * 40)
 
         for column, method in scaling_result["scaling_recommendation"].items():
 
-            print(
-                f"{column} : {method}"
-            )
+            print(f"{column} : {method}")
 
         print("\nRecommendation")
+
         print("-" * 40)
 
         print(
@@ -315,12 +315,12 @@ class PreprocessingAgent(BaseAgent):
         )
 
         print("\nHuman Approval Required")
+
         print("-" * 40)
 
-        if scaling_result["human_approval_required"]:
-            print("✓ Human approval required before applying scaling.")
-        else:
-            print("✓ No human approval required.")
+        print(
+            scaling_result["human_approval_required"]
+        )
 
         ####################################################################
         # Future Modules

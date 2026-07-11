@@ -891,7 +891,7 @@ class PreprocessingAgent(BaseAgent):
         print("[√] High Cardinality Module")
         print("[√] ID Detection Module")
 
-        print("[ ] Recommendation Engine v2")
+        print("[✓] Recommendation Engine")
         ####################################################################
         # Recommendation Engine (Version 1.0)
         ####################################################################
@@ -957,25 +957,25 @@ class PreprocessingAgent(BaseAgent):
         print("PREPROCESSING AGENT STATUS")
         print("=" * 70)
 
-        print("Status : Completed")
+        print("\nStatus : Completed")
 
-        print("Completed Modules :")
+        print("\nCompleted Modules :")
 
-        print("    √ Duplicate Analysis")
-        print("    √ Missing Value Analysis")
-        print("    √ Data Type Analysis")
-        print("    √ Outlier Detection")
-        print("    √ Encoding Recommendation")
-        print("    √ Scaling Recommendation")
-        print("    √ Date Detection")
-        print("    √ Text Detection")
-        print("    √ Boolean Detection")
-        print("    √ Constant Feature Detection")
-        print("    √ High Cardinality Detection")
-        print("    √ ID Detection")
+        print("   ✓ Duplicate Analysis")
+        print("   ✓ Missing Value Analysis")
+        print("   ✓ Data Type Analysis")
+        print("   ✓ Outlier Detection")
+        print("   ✓ Encoding Recommendation")
+        print("   ✓ Scaling Recommendation")
+        print("   ✓ Date Detection")
+        print("   ✓ Text Detection")
+        print("   ✓ Boolean Detection")
+        print("   ✓ Constant Feature Detection")
+        print("   ✓ High Cardinality Detection")
+        print("   ✓ ID Detection")
+        print("   ✓ Recommendation Engine")
 
-        print("Pending Modules :")
-        print("    • Recommendation Engine v2")
+        print("\nPending Modules : None")
 
         ####################################################################
         # Agent Completed

@@ -43,7 +43,7 @@ from agents.preprocessing.text_module import TextModule
 from agents.preprocessing.boolean_module import BooleanModule
 from agents.preprocessing.constant_feature_module import ConstantFeatureModule
 from agents.preprocessing.high_cardinality_module import HighCardinalityModule
-
+from agents.preprocessing.id_detection_module import IDDetectionModule
 
 class PreprocessingAgent(BaseAgent):
     """
@@ -678,6 +678,79 @@ class PreprocessingAgent(BaseAgent):
             high_cardinality_result["human_approval_required"]
         )
            
+        ############################################################
+        # ID Detection Module
+        ############################################################
+
+        id_detection_module = IDDetectionModule()
+
+        id_detection_result = id_detection_module.analyze(df)
+
+        print("\nID DETECTION MODULE")
+        print("=" * 70)
+
+        print()
+
+        print(id_detection_result["summary"])
+
+        print()
+
+        print("Detected Columns")
+        print("-" * 40)
+
+        for column, details in id_detection_result["id_recommendation"].items():
+
+            print()
+
+            print(column)
+
+            print(
+                "    Status              :",
+                details["status"]
+            )
+
+            print(
+                "    Unique Values       :",
+                details["unique_values"]
+            )
+
+            print(
+                "    Uniqueness %        :",
+                details["uniqueness_percentage"]
+            )
+
+            print(
+                "    Recommended Action  :",
+                details["recommended_action"]
+            )
+
+            print(
+                "    Reason              :",
+                details["reason"]
+            )
+
+            print(
+                "    Human Approval      :",
+                details["human_approval"]
+            )
+
+        print()
+
+        print("Recommendation")
+        print("-" * 40)
+
+        print(
+            id_detection_result["recommendation"]
+        )
+
+        print()
+
+        print("Human Approval Required")
+        print("-" * 40)
+
+        print(
+            id_detection_result["human_approval_required"]
+        )
 
         ####################################################################
         # Future Modules
@@ -698,10 +771,9 @@ class PreprocessingAgent(BaseAgent):
         print("[√] Boolean Module")
         print("[√] Constant Feature Module")
         print("[√] High Cardinality Module")
+        print("[√] ID Detection Module")
 
-        print("[ ] ID Detection Module")
         print("[ ] Recommendation Engine v2")
-
         ####################################################################
         # Recommendation Engine (Version 1.0)
         ####################################################################
@@ -771,21 +843,21 @@ class PreprocessingAgent(BaseAgent):
 
         print("Completed Modules :")
 
-        print("    ✓ Duplicate Analysis")
-        print("    ✓ Missing Value Analysis")
-        print("    ✓ Data Type Analysis")
-        print("    ✓ Outlier Detection")
-        print("    ✓ Encoding Recommendation")
-        print("    ✓ Scaling Recommendation")
-        print("    ✓ Date Detection")
-        print("    ✓ Text Detection")
-        print("    ✓ Boolean Detection")
-        print("    ✓ Constant Feature Detection")
-        print("    ✓ High Cardinality Detection")
+        print("    √ Duplicate Analysis")
+        print("    √ Missing Value Analysis")
+        print("    √ Data Type Analysis")
+        print("    √ Outlier Detection")
+        print("    √ Encoding Recommendation")
+        print("    √ Scaling Recommendation")
+        print("    √ Date Detection")
+        print("    √ Text Detection")
+        print("    √ Boolean Detection")
+        print("    √ Constant Feature Detection")
+        print("    √ High Cardinality Detection")
+        print("    √ ID Detection")
 
         print("Pending Modules :")
-        print("   • ID Detection")
-        print("   • Recommendation Engine v2")
+        print("    • Recommendation Engine v2")
 
         ####################################################################
         # Agent Completed
@@ -799,31 +871,33 @@ class PreprocessingAgent(BaseAgent):
 
         preprocessing_results = {
 
-    "dataframe": df,
+        "dataframe": df,
 
-    "duplicate_result": duplicate_result,
+        "duplicate_result": duplicate_result,
 
-    "missing_value_result": missing_result,
+        "missing_value_result": missing_result,
 
-    "datatype_result": datatype_result,
+        "datatype_result": datatype_result,
 
-    "outlier_result": outlier_result,
+        "outlier_result": outlier_result,
 
-    "encoding_result": encoding_result,
+        "encoding_result": encoding_result,
 
-    "scaling_result": scaling_result,
+        "scaling_result": scaling_result,
 
-    "date_result": date_result,
+        "date_result": date_result,
 
-    "text_result": text_result,
+        "text_result": text_result,
 
-    "boolean_result": boolean_result,
+        "boolean_result": boolean_result,
 
-    "constant_feature_result": constant_feature_result,
+        "constant_feature_result": constant_feature_result,
 
-    "high_cardinality_result": high_cardinality_result
+        "high_cardinality_result": high_cardinality_result,
 
-    }
+        "id_detection_result": id_detection_result
+        }
+
         ####################################################################
         # Return Results
         ####################################################################

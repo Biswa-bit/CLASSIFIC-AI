@@ -41,6 +41,7 @@ from agents.preprocessing.scaling_module import ScalingModule
 from agents.preprocessing.date_module import DateModule
 from agents.preprocessing.text_module import TextModule
 from agents.preprocessing.boolean_module import BooleanModule
+from agents.preprocessing.constant_feature_module import ConstantFeatureModule
 
 
 
@@ -539,6 +540,71 @@ class PreprocessingAgent(BaseAgent):
                 print(
                     boolean_result["human_approval_required"]
                 )
+
+         ###################################################################
+        # Constant Feature Module
+        ####################################################################
+
+                constant_feature_module = ConstantFeatureModule()
+
+                constant_feature_result = constant_feature_module.analyze(df)
+
+                print("\nCONSTANT FEATURE MODULE")
+                print("=" * 70)
+
+                print()
+
+                print(constant_feature_result["summary"])
+
+                print()
+
+                print("Detected Columns")
+                print("-" * 40)
+
+                for column, details in constant_feature_result["constant_recommendation"].items():
+
+                    print()
+
+                    print(column)
+
+                    print(
+                        "    Status              :",
+                        details["status"]
+                    )
+
+                    print(
+                        "    Recommended Action  :",
+                        details["recommended_action"]
+                    )
+
+                    print(
+                        "    Reason              :",
+                        details["reason"]
+                    )
+
+                    print(
+                        "    Human Approval      :",
+                        details["human_approval"]
+                    )
+
+                print()
+
+                print("Recommendation")
+                print("-" * 40)
+
+                print(
+                    constant_feature_result["recommendation"]
+                )
+
+                print()
+
+                print("Human Approval Required")
+                print("-" * 40)
+
+                print(
+                    constant_feature_result["human_approval_required"]
+                )
+
         
 
         ####################################################################
@@ -557,9 +623,9 @@ class PreprocessingAgent(BaseAgent):
         print("[√] Scaling Module")
         print("[√] Date Module")
         print("[√] Text Module")
-        print("[√] Boolean Module")
 
-        print("[ ] Constant Feature Module")
+        print("[√] Boolean Module")
+        print("[√] Constant Feature Module")
         print("[ ] High Cardinality Module")
         print("[ ] ID Detection Module")
         print("[ ] Recommendation Engine v2")
@@ -642,13 +708,13 @@ class PreprocessingAgent(BaseAgent):
         print("    ✓ Date Detection")
         print("    ✓ Text Detection")
         print("    ✓ Boolean Detection")
+        print("    ✓ Constant Feature Detection")
 
-        print("\nPending Modules :")
+        print("Pending Modules :")
 
-        print("    • Constant Feature Detection")
-        print("    • High Cardinality Detection")
-        print("    • ID Detection")
-        print("    • Recommendation Engine v2")
+        print("   • High Cardinality Detection")
+        print("   • ID Detection")
+        print("   • Recommendation Engine v2")
 
         ####################################################################
         # Agent Completed
@@ -680,9 +746,11 @@ class PreprocessingAgent(BaseAgent):
 
         "text_result": text_result,
 
-        "boolean_result": boolean_result
+        "boolean_result": boolean_result,
 
-    }
+        "constant_feature_result": constant_feature_result
+
+        }
         ####################################################################
         # Return Results
         ####################################################################

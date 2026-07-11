@@ -40,6 +40,7 @@ from agents.preprocessing.encoding_module import EncodingModule
 from agents.preprocessing.scaling_module import ScalingModule
 from agents.preprocessing.date_module import DateModule
 from agents.preprocessing.text_module import TextModule
+from agents.preprocessing.boolean_module import BooleanModule
 
 
 
@@ -474,6 +475,72 @@ class PreprocessingAgent(BaseAgent):
             text_result["human_approval_required"]
         )
 
+
+        ####################################################################
+        # Boolean Module
+        ####################################################################
+
+        boolean_module = BooleanModule()
+
+        boolean_result = boolean_module.analyze(df)
+
+        print("\nBOOLEAN MODULE")
+        print("=" * 70)
+
+        print()
+
+        print(boolean_result["summary"])
+
+        print()
+
+        print("Detected Columns")
+        print("-" * 40)
+
+        for column, details in boolean_result["boolean_recommendation"].items():
+
+                print()
+
+                print(column)
+
+                print(
+                    "    Status              :",
+                        details["status"]
+                    )
+
+                print(
+                        "    Recommended Action  :",
+                        details["recommended_action"]
+                    )
+
+                print(
+                        "    Reason              :",
+                        details["reason"]
+                    )
+
+                print(
+                        "    Human Approval      :",
+                        details["human_approval"]
+                    )
+
+                print()
+
+                print("Recommendation")
+                print("-" * 40)
+
+                print(
+                    boolean_result["recommendation"]
+                )
+
+                print()
+
+                print("Human Approval Required")
+                print("-" * 40)
+
+                print(
+                    boolean_result["human_approval_required"]
+                )
+        
+
         ####################################################################
         # Future Modules
         ####################################################################
@@ -490,8 +557,8 @@ class PreprocessingAgent(BaseAgent):
         print("[√] Scaling Module")
         print("[√] Date Module")
         print("[√] Text Module")
+        print("[√] Boolean Module")
 
-        print("[ ] Boolean Module")
         print("[ ] Constant Feature Module")
         print("[ ] High Cardinality Module")
         print("[ ] ID Detection Module")
@@ -574,10 +641,10 @@ class PreprocessingAgent(BaseAgent):
         print("    ✓ Scaling Recommendation")
         print("    ✓ Date Detection")
         print("    ✓ Text Detection")
+        print("    ✓ Boolean Detection")
 
         print("\nPending Modules :")
 
-        print("    • Boolean Detection")
         print("    • Constant Feature Detection")
         print("    • High Cardinality Detection")
         print("    • ID Detection")
@@ -611,7 +678,9 @@ class PreprocessingAgent(BaseAgent):
 
         "date_result": date_result,
 
-        "text_result": text_result
+        "text_result": text_result,
+
+        "boolean_result": boolean_result
 
     }
         ####################################################################

@@ -44,6 +44,7 @@ from agents.preprocessing.boolean_module import BooleanModule
 from agents.preprocessing.constant_feature_module import ConstantFeatureModule
 from agents.preprocessing.high_cardinality_module import HighCardinalityModule
 from agents.preprocessing.id_detection_module import IDDetectionModule
+from agents.preprocessing.recommendation_engine import RecommendationEngine
 
 class PreprocessingAgent(BaseAgent):
     """
@@ -187,7 +188,7 @@ class PreprocessingAgent(BaseAgent):
 
         print(datatype_result["human_approval_required"])
 
-      ####################################################################
+        ####################################################################
         # Outlier Module
         ####################################################################
 
@@ -753,6 +754,123 @@ class PreprocessingAgent(BaseAgent):
         )
 
         ####################################################################
+        # Recommendation Engine
+        ####################################################################
+
+        recommendation_engine = RecommendationEngine()
+
+        recommendation_result = recommendation_engine.analyze(
+
+            df,
+
+            duplicate_result,
+
+            missing_result,
+
+            datatype_result,
+
+            outlier_result,
+
+            encoding_result,
+
+            scaling_result,
+
+            date_result,
+
+            text_result,
+
+            boolean_result,
+
+            constant_feature_result,
+
+            high_cardinality_result,
+
+            id_detection_result
+
+        )
+
+        print("\nRECOMMENDATION ENGINE")
+
+        print("=" * 70)
+
+        print()
+
+        print(recommendation_result["summary"])
+
+        print()
+
+        print("Recommendations")
+
+        print("-" * 40)
+
+        for recommendation in recommendation_result["recommendations"]:
+
+            print()
+
+            print("-", recommendation)
+
+            print()
+
+        print("Preprocessing Steps")
+
+        print("-" * 40)
+
+        for step in recommendation_result["preprocessing_steps"]:
+
+            print()
+
+            print("-", step)
+
+            print()
+
+        print("Issues Detected")
+
+        print("-" * 40)
+
+        for issue in recommendation_result["issues_detected"]:
+
+            print()
+
+            print("-", issue)
+
+            print()
+
+        print("Dataset Health Score")
+
+        print("-" * 40)
+
+        print(
+
+            recommendation_result["dataset_health_score"]
+
+        )
+
+        print()
+
+        print("Readiness Status")
+
+        print("-" * 40)
+
+        print(
+
+            recommendation_result["readiness_status"]
+
+        )
+
+        print()
+
+        print("Human Approval Required")
+
+        print("-" * 40)
+
+        print(
+
+            recommendation_result["human_approval_required"]
+
+        )
+        
+
+        ####################################################################
         # Future Modules
         ####################################################################
 
@@ -895,24 +1013,14 @@ class PreprocessingAgent(BaseAgent):
 
         "high_cardinality_result": high_cardinality_result,
 
-        "id_detection_result": id_detection_result
-        }
-
-        ####################################################################
-        # Return Results
-        ####################################################################
-
-        preprocessing_results = {
-
-            "dataframe": df,
-
-            "duplicate_result": duplicate_result,
-
-            "missing_value_result": missing_result
-
+        "id_detection_result": id_detection_result,
+        
+        "recommendation_result": recommendation_result
         }
 
         return preprocessing_results
+    
+    
     
     
     

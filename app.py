@@ -16,6 +16,7 @@ Author : Biswadip Choudhury
 
 from agents.dataset_agent import DatasetAgent
 from agents.preprocessing_agent import PreprocessingAgent
+from agents.profiling_agent import ProfilingAgent
 
 
 # ======================================================================
@@ -23,15 +24,15 @@ from agents.preprocessing_agent import PreprocessingAgent
 # ======================================================================
 #
 # Completed
-# ---------
+#
 # ✓ Dataset Agent
 # ✓ Preprocessing Agent
+# ✓ Data Profiling Agent (In Development)
 #
-# Upcoming Agents
+# # Upcoming Agents
 # ---------------
-# □ Data Profiling Agent
-# □ Business Rules Agent
 # □ EDA Agent
+# □ Business Rules Agent
 # □ Feature Engineering Agent
 # □ Feature Selection Agent
 # □ Data Splitting Agent
@@ -90,6 +91,14 @@ def main():
     # Recommendation Engine Result
     recommendation = preprocessing_results["recommendation_result"]
 
+    ###############################################################
+    # Data Profiling Agent
+    ###############################################################
+
+    profiling_agent = ProfilingAgent()
+
+    profiling_result = profiling_agent.execute(df)
+
     # ==============================================================
     # PIPELINE SUMMARY
     # ==============================================================
@@ -110,11 +119,12 @@ def main():
 
     print("✓ Dataset Agent")
     print("✓ Preprocessing Agent")
+    print("✓ Data Profiling Agent")
 
     print("\nNext Agent")
     print("-" * 30)
 
-    print("→ Data Profiling Agent")
+    print("→ EDA Agent")
 
     # ==============================================================
     # AI PREPROCESSING REPORT

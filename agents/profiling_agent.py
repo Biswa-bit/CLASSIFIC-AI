@@ -20,6 +20,21 @@ Responsibilities
 • AI Recommendations
 • Executive Profiling Report
 
+Completed Modules
+-----------------
+✓ Dataset Overview
+✓ Column Intelligence
+✓ Statistics Summary
+
+In Development
+--------------
+□ Feature Quality
+□ Distribution Analysis
+□ Correlation Analysis
+□ Outlier Detection
+□ Recommendation Engine
+□ Executive Profiling Report
+
 Author : Biswadip Choudhury
 Version : 1.0.0
 ==============================================================
@@ -30,6 +45,8 @@ import pandas as pd
 from core.base_agent import BaseAgent
 from agents.profiling.dataset_overview import DatasetOverview
 from agents.profiling.column_intelligence import ColumnIntelligence
+from agents.profiling.statistics_summary import StatisticsSummary
+from agents.profiling.feature_quality import FeatureQuality
 
 
 class ProfilingAgent(BaseAgent):
@@ -87,8 +104,17 @@ class ProfilingAgent(BaseAgent):
         # Statistics Summary Module
         ###############################################################
 
-        # statistics_module = StatisticsSummary()
-        # statistics_result = statistics_module.analyze(df)
+        statistics_module = StatisticsSummary()
+
+        statistics_result = statistics_module.analyze(df)
+
+        ###############################################################
+        # Feature Quality Module
+        ###############################################################
+
+        feature_module = FeatureQuality()
+
+        feature_result = feature_module.analyze(df)
 
 
         ###############################################################
@@ -113,15 +139,6 @@ class ProfilingAgent(BaseAgent):
 
         # outlier_module = OutlierDetection()
         # outlier_result = outlier_module.analyze(df)
-
-
-        ###############################################################
-        # Feature Quality Module
-        ###############################################################
-
-        # quality_module = FeatureQuality()
-        # quality_result = quality_module.analyze(df)
-
 
         ###############################################################
         # Profiling Recommendation Module
@@ -154,31 +171,39 @@ class ProfilingAgent(BaseAgent):
 
         result = {
 
-            "module": "Data Profiling Agent",
+    "module": "Data Profiling Agent",
 
-            "status": "Completed",
+    "status": "Completed",
 
-            "summary": {
+    "summary": {
 
-                "total_rows": total_rows,
+        "total_rows": total_rows,
 
-                "total_columns": total_columns,
+        "total_columns": total_columns,
 
-                "memory_usage_mb": memory_usage_mb,
+        "memory_usage_mb": memory_usage_mb,
 
-                "numeric_columns": numeric_columns,
+        "numeric_columns": numeric_columns,
 
-                "categorical_columns": categorical_columns,
+        "categorical_columns": categorical_columns,
 
-                "boolean_columns": boolean_columns,
+        "boolean_columns": boolean_columns,
 
-                "datetime_columns": datetime_columns
+        "datetime_columns": datetime_columns
 
-            },
+    },
 
-            "dataframe": df
+    "column_intelligence": column_result,
 
-        }
+    "statistics_summary": statistics_result,
+    
+    "feature_quality": feature_result,
+
+    "dataframe": df
+
+    }
+
+        
 
         print()
         print("#" * 70)

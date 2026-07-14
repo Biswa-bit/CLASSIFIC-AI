@@ -27,7 +27,7 @@ from agents.profiling_agent import ProfilingAgent
 #
 # ✓ Dataset Agent
 # ✓ Preprocessing Agent
-# ✓ Data Profiling Agent (In Development)
+# ✓ Data Profiling Agent (Core Modules In Development)
 #
 # # Upcoming Agents
 # ---------------

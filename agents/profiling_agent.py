@@ -48,6 +48,7 @@ from agents.profiling.column_intelligence import ColumnIntelligence
 from agents.profiling.statistics_summary import StatisticsSummary
 from agents.profiling.feature_quality import FeatureQuality
 from agents.profiling.distribution_analysis import DistributionAnalysis
+from agents.profiling.correlation_analysis import CorrelationAnalysis
 
 class ProfilingAgent(BaseAgent):
 
@@ -130,8 +131,9 @@ class ProfilingAgent(BaseAgent):
         # Correlation Analysis Module
         ###############################################################
 
-        # correlation_module = CorrelationAnalysis()
-        # correlation_result = correlation_module.analyze(df)
+        correlation_module = CorrelationAnalysis()
+
+        correlation_result = correlation_module.analyze(df)
 
 
         ###############################################################
@@ -195,6 +197,8 @@ class ProfilingAgent(BaseAgent):
     "feature_quality": feature_result,
 
     "distribution_analysis": distribution_result,
+
+    "correlation_analysis": correlation_result,
 
     "dataframe": df
 

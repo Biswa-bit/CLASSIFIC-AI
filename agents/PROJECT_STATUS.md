@@ -14,9 +14,8 @@
 - ✅ Statistics Summary
 - ✅ Feature Quality
 - ✅ Distribution Analysis
-
+- ✅ Correlation Analysis
 ### Planned
-- ⬜ Correlation Analysis
 - ⬜ Outlier Detection
 - ⬜ Recommendation Engine
 - ⬜ Executive Profiling Report

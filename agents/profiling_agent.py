@@ -50,6 +50,8 @@ from agents.profiling.feature_quality import FeatureQuality
 from agents.profiling.distribution_analysis import DistributionAnalysis
 from agents.profiling.correlation_analysis import CorrelationAnalysis
 from agents.profiling.outlier_detection import OutlierDetection
+from agents.profiling.profiling_recommendation import ProfilingRecommendation
+from agents.profiling.profiling_report import ProfilingReport
 
 class ProfilingAgent(BaseAgent):
 
@@ -74,24 +76,6 @@ class ProfilingAgent(BaseAgent):
         overview_module = DatasetOverview()
 
         overview_result = overview_module.analyze(df)
-
-        ###############################################################
-        # Store Results
-        ###############################################################
-
-        total_rows = overview_result["total_rows"]
-
-        total_columns = overview_result["total_columns"]
-
-        memory_usage_mb = overview_result["memory_usage_mb"]
-
-        numeric_columns = overview_result["numeric_columns"]
-
-        categorical_columns = overview_result["categorical_columns"]
-
-        boolean_columns = overview_result["boolean_columns"]
-
-        datetime_columns = overview_result["datetime_columns"]
 
         ###############################################################
         # Column Intelligence Module
@@ -149,26 +133,27 @@ class ProfilingAgent(BaseAgent):
         # Profiling Recommendation Module
         ###############################################################
 
-        # recommendation_module = ProfilingRecommendation()
-        # recommendation_result = recommendation_module.analyze(df)
+        recommendation_module = ProfilingRecommendation()
 
+        recommendation_result = recommendation_module.analyze(
 
-        ###############################################################
-        # Final Profiling Report
-        ###############################################################
+            df,
 
-        # report_module = ProfilingReport()
+            overview_result,
 
-        # final_report = report_module.generate(
-        #     overview_result,
-        #     column_result,
-        #     statistics_result,
-        #     distribution_result,
-        #     correlation_result,
-        #     outlier_result,
-        #     quality_result,
-        #     recommendation_result
-        # )
+            column_result,
+
+            statistics_result,
+
+            feature_result,
+
+            distribution_result,
+
+            correlation_result,
+
+            outlier_result
+
+        )
 
         ###############################################################
         # Return Results
@@ -176,37 +161,59 @@ class ProfilingAgent(BaseAgent):
 
         result = {
 
-    "module": "Data Profiling Agent",
+            "module": "Data Profiling Agent",
 
-    "status": "Completed",
+            "status": "Completed",
 
-    "summary": {
+            ###########################################################
+            # Original Dataset
+            ###########################################################
 
-        "total_rows": total_rows,
-        "total_columns": total_columns,
-        "memory_usage_mb": memory_usage_mb,
-        "numeric_columns": numeric_columns,
-        "categorical_columns": categorical_columns,
-        "boolean_columns": boolean_columns,
-        "datetime_columns": datetime_columns
+            "dataset": {
 
-    },
+            "raw": df
 
-    "column_intelligence": column_result,
+            },
 
-    "statistics_summary": statistics_result,
+            ###########################################################
+            # Profiling Modules
+            ###########################################################
 
-    "feature_quality": feature_result,
+            "dataset_overview": overview_result,
 
-    "distribution_analysis": distribution_result,
+            "column_intelligence": column_result,
 
-    "correlation_analysis": correlation_result,
+            "statistics_summary": statistics_result,
 
-    "outlier_detection": outlier_result,
+            "feature_quality": feature_result,
 
-    "dataframe": df
+            "distribution_analysis": distribution_result,
 
-    }  
+            "correlation_analysis": correlation_result,
+
+            "outlier_detection": outlier_result,
+
+            "profiling_recommendation": recommendation_result
+
+        }
+
+        ###############################################################
+        # Executive Profiling Report
+        ###############################################################
+
+        report_module = ProfilingReport()
+
+        report_result = report_module.generate(result)
+
+        ###############################################################
+        # Store Executive Report
+        ###############################################################
+
+        result["executive_report"] = report_result
+
+        ###############################################################
+        # Completion Message
+        ###############################################################
 
         print()
         print("#" * 70)
@@ -216,14 +223,15 @@ class ProfilingAgent(BaseAgent):
         print("#" * 70)
 
         return result
-        print()
-        print("#" * 70)
-        print("#")
-        print("#        DATA PROFILING AGENT COMPLETED")
-        print("#")
-        print("#" * 70)
 
-        return result
+        
+    
+
+      
+
+    
+
+       
     
     
     

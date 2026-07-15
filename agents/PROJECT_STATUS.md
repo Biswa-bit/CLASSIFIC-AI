@@ -16,9 +16,9 @@
 - ✅ Distribution Analysis
 - ✅ Correlation Analysis
 - ✅ Outlier Detection
+- ✅ Recommendation Engine
 
 ### Planned
-- ⬜ Recommendation Engine
 - ⬜ Executive Profiling Report
 
 ## Business Rules Agent

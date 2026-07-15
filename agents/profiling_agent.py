@@ -25,11 +25,11 @@ Completed Modules
 ✓ Dataset Overview
 ✓ Column Intelligence
 ✓ Statistics Summary
+✓ Feature Quality
+✓ Distribution Analysis
 
 In Development
 --------------
-□ Feature Quality
-□ Distribution Analysis
 □ Correlation Analysis
 □ Outlier Detection
 □ Recommendation Engine
@@ -47,7 +47,7 @@ from agents.profiling.dataset_overview import DatasetOverview
 from agents.profiling.column_intelligence import ColumnIntelligence
 from agents.profiling.statistics_summary import StatisticsSummary
 from agents.profiling.feature_quality import FeatureQuality
-
+from agents.profiling.distribution_analysis import DistributionAnalysis
 
 class ProfilingAgent(BaseAgent):
 
@@ -121,8 +121,9 @@ class ProfilingAgent(BaseAgent):
         # Distribution Analysis Module
         ###############################################################
 
-        # distribution_module = DistributionAnalysis()
-        # distribution_result = distribution_module.analyze(df)
+        distribution_module = DistributionAnalysis()
+
+        distribution_result = distribution_module.analyze(df)
 
 
         ###############################################################
@@ -178,17 +179,11 @@ class ProfilingAgent(BaseAgent):
     "summary": {
 
         "total_rows": total_rows,
-
         "total_columns": total_columns,
-
         "memory_usage_mb": memory_usage_mb,
-
         "numeric_columns": numeric_columns,
-
         "categorical_columns": categorical_columns,
-
         "boolean_columns": boolean_columns,
-
         "datetime_columns": datetime_columns
 
     },
@@ -196,15 +191,23 @@ class ProfilingAgent(BaseAgent):
     "column_intelligence": column_result,
 
     "statistics_summary": statistics_result,
-    
+
     "feature_quality": feature_result,
+
+    "distribution_analysis": distribution_result,
 
     "dataframe": df
 
-    }
+    }  
 
-        
+        print()
+        print("#" * 70)
+        print("#")
+        print("#        DATA PROFILING AGENT COMPLETED")
+        print("#")
+        print("#" * 70)
 
+        return result
         print()
         print("#" * 70)
         print("#")

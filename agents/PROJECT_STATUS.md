@@ -13,10 +13,9 @@
 - ✅ Column Intelligence
 - ✅ Statistics Summary
 - ✅ Feature Quality
-
+- ✅ Distribution Analysis
 
 ### Planned
-- ⬜ Distribution Analysis
 - ⬜ Correlation Analysis
 - ⬜ Outlier Detection
 - ⬜ Recommendation Engine

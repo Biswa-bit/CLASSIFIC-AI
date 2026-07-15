@@ -49,6 +49,7 @@ from agents.profiling.statistics_summary import StatisticsSummary
 from agents.profiling.feature_quality import FeatureQuality
 from agents.profiling.distribution_analysis import DistributionAnalysis
 from agents.profiling.correlation_analysis import CorrelationAnalysis
+from agents.profiling.outlier_detection import OutlierDetection
 
 class ProfilingAgent(BaseAgent):
 
@@ -140,8 +141,9 @@ class ProfilingAgent(BaseAgent):
         # Outlier Detection Module
         ###############################################################
 
-        # outlier_module = OutlierDetection()
-        # outlier_result = outlier_module.analyze(df)
+        outlier_module = OutlierDetection()
+
+        outlier_result = outlier_module.analyze(df)
 
         ###############################################################
         # Profiling Recommendation Module
@@ -199,6 +201,8 @@ class ProfilingAgent(BaseAgent):
     "distribution_analysis": distribution_result,
 
     "correlation_analysis": correlation_result,
+
+    "outlier_detection": outlier_result,
 
     "dataframe": df
 

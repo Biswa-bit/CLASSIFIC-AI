@@ -28,6 +28,7 @@ Project : CLASSIFIC-AI
 import pandas as pd
 
 from core.base_agent import BaseAgent
+from core.agent_output import AgentOutput
 
 from utils.file_handler import load_data
 from utils.validator import validate_dataframe
@@ -35,6 +36,8 @@ from utils.validator import validate_dataframe
 from agents.dataset.dashboard import DatasetDashboard
 from agents.dataset.report import DatasetReport
 from agents.dataset.recommendation import DatasetRecommendation
+from agents.dataset.readiness import DatasetReadiness
+from agents.dataset.approval import DatasetApproval
 
 
 class DatasetAgent(BaseAgent):
@@ -64,6 +67,10 @@ class DatasetAgent(BaseAgent):
 
         self.recommendation = DatasetRecommendation()
 
+        self.readiness = DatasetReadiness()
+
+        self.approval = DatasetApproval()
+
     # -----------------------------------------------------
     # Main Execution
     # -----------------------------------------------------
@@ -85,7 +92,48 @@ class DatasetAgent(BaseAgent):
 
         validate_dataframe(self.df)
 
-        return self.df
+        ####################################################
+        # Dataset Summary
+        ####################################################
+
+        summary = self.dataset_info()
+
+        dashboard = self.dashboard.build(summary)
+
+        report = self.report.build(summary)
+
+        recommendation = self.recommendation.build(summary)
+
+        readiness = self.readiness.build(summary)
+
+        approval = self.approval.build(readiness)
+
+
+        ####################################################
+        # Return Standardized Agent Output
+        ####################################################
+
+        return AgentOutput(
+
+            agent_name=self.name,
+
+            status="Completed",
+
+            dataframe=self.df,
+
+            summary=summary,
+
+            dashboard=dashboard,
+
+            report=report,
+
+            recommendations=recommendation,
+
+            readiness=readiness,
+
+            approval_status=approval,
+
+        )
 
     # -----------------------------------------------------
     # Dataset Access

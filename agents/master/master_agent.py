@@ -11,11 +11,15 @@ Coordinates all AI Agents in the correct order.
 Current Pipeline
 ----------------
 
+Current Pipeline
+
 Dataset Agent
       ↓
 Preprocessing Agent
       ↓
 Profiling Agent
+      ↓
+EDA Agent
 
 Future Pipeline
 ---------------
@@ -48,6 +52,7 @@ from agents.master.dashboard import ExecutionDashboard
 from agents.dataset.dataset_agent import DatasetAgent
 from agents.preprocessing.preprocessing_agent import PreprocessingAgent
 from agents.profiling.profiling_agent import ProfilingAgent
+from agents.eda.eda_agent import EDAAgent
 
 
 class MasterAgent(BaseAgent):
@@ -66,6 +71,9 @@ class MasterAgent(BaseAgent):
         self.preprocessing_agent = PreprocessingAgent()
 
         self.profiling_agent = ProfilingAgent()
+
+        self.eda_agent = EDAAgent()
+
         self.tracker = ExecutionTracker()
 
     def execute(self, dataset_path):
@@ -80,12 +88,15 @@ class MasterAgent(BaseAgent):
         ####################################################
 
         record = self.tracker.start("Dataset Agent")
+
         try:
-            dataframe = self.dataset_agent.execute(dataset_path)
+            dataset_result = self.dataset_agent.execute(dataset_path)
+
+            dataframe = dataset_result.dataframe
 
             self.tracker.end(record)
 
-        except Exception as e: 
+        except Exception as e:
             self.tracker.fail(record, e)
             raise
    
@@ -117,7 +128,37 @@ class MasterAgent(BaseAgent):
              self.tracker.end(record)
         except Exception as e:
              self.tracker.fail(record, e)
-             raise     
+             raise
+
+        ####################################################
+        # EDA Agent
+        ####################################################
+
+        record = self.tracker.start("EDA Agent")
+
+        try:
+
+            eda_result = self.eda_agent.execute(clean_dataframe)
+
+            print()
+
+            print("=" * 70)
+
+            print("EDA MODULES EXECUTED")
+
+            print("=" * 70)
+
+            for key in eda_result.keys():
+
+                print(key)
+
+            self.tracker.end(record)
+
+        except Exception as e:
+
+            self.tracker.fail(record, e)
+
+            raise    
 
         ####################################################
         # Final Result
@@ -127,13 +168,15 @@ class MasterAgent(BaseAgent):
 
             "status": "Completed",
 
-            "dataset": dataframe,
+            "dataset": dataset_result,
 
             "clean_dataframe": clean_dataframe,
 
             "preprocessing": preprocessing_result,
 
-            "profiling": profiling_result
+            "profiling": profiling_result,
+
+            "eda": eda_result
 
         }
 
